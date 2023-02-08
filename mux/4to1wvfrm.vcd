@@ -1,0 +1,139 @@
+$date
+	Wed Jan 18 17:20:10 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module fourto1mux_tb $end
+$var wire 32 ! a [31:0] $end
+$var wire 32 " b [31:0] $end
+$var wire 32 # c [31:0] $end
+$var wire 32 $ d [31:0] $end
+$var wire 2 % select [1:0] $end
+$var wire 32 & out [31:0] $end
+$var integer 32 ' i [31:0] $end
+$scope module mux $end
+$var wire 32 ( a [31:0] $end
+$var wire 32 ) b [31:0] $end
+$var wire 32 * c [31:0] $end
+$var wire 32 + d [31:0] $end
+$var wire 2 , select [1:0] $end
+$var wire 32 - w2 [31:0] $end
+$var wire 32 . w1 [31:0] $end
+$var wire 32 / out [31:0] $end
+$scope module in1 $end
+$var wire 32 0 a [31:0] $end
+$var wire 32 1 b [31:0] $end
+$var wire 1 2 select $end
+$var wire 32 3 out [31:0] $end
+$upscope $end
+$scope module in2 $end
+$var wire 32 4 a [31:0] $end
+$var wire 32 5 b [31:0] $end
+$var wire 1 6 select $end
+$var wire 32 7 out [31:0] $end
+$upscope $end
+$scope module outmux $end
+$var wire 32 8 a [31:0] $end
+$var wire 32 9 b [31:0] $end
+$var wire 1 : select $end
+$var wire 32 ; out [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b0 ;
+0:
+b10 9
+b0 8
+b10 7
+06
+b11 5
+b10 4
+b0 3
+02
+b1 1
+b0 0
+b0 /
+b0 .
+b10 -
+b0 ,
+b11 +
+b10 *
+b1 )
+b0 (
+b0 '
+b0 &
+b0 %
+b11 $
+b10 #
+b1 "
+b0 !
+$end
+#20
+b1 &
+b1 /
+b1 ;
+b1 .
+b1 3
+b1 8
+b11 -
+b11 7
+b11 9
+12
+16
+b1 %
+b1 ,
+b1 '
+#40
+b0 .
+b0 3
+b0 8
+b10 -
+b10 7
+b10 9
+b10 &
+b10 /
+b10 ;
+02
+06
+1:
+b10 %
+b10 ,
+b10 '
+#60
+b11 &
+b11 /
+b11 ;
+b1 .
+b1 3
+b1 8
+b11 -
+b11 7
+b11 9
+12
+16
+b11 %
+b11 ,
+b11 '
+#80
+b0 .
+b0 3
+b0 8
+b10 -
+b10 7
+b10 9
+b0 &
+b0 /
+b0 ;
+02
+06
+0:
+b0 %
+b0 ,
+b100 '

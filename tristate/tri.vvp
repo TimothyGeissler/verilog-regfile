@@ -1,0 +1,55 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_012A91B0 .scope module, "tristate_tb" "tristate_tb" 2 1;
+ .timescale 0 0;
+v012A3290_0 .var "a", 0 0;
+v012A32E8_0 .var/i "i", 31 0;
+v012A3340_0 .var "oe", 0 0;
+v012A3980_0 .net "out", 0 0, L_012A39D8; 1 drivers
+S_012A9A30 .scope module, "t" "tristate" 2 9, 3 1, S_012A91B0;
+ .timescale 0 0;
+v012A8D48_0 .net *"_s0", 0 0, C4<z>; 0 drivers
+v012A5568_0 .net "in", 0 0, v012A3290_0; 1 drivers
+v012A51D8_0 .net "oe", 0 0, v012A3340_0; 1 drivers
+v012A5230_0 .alias "out", 0 0, v012A3980_0;
+L_012A39D8 .functor MUXZ 1, C4<z>, v012A3290_0, v012A3340_0, C4<>;
+    .scope S_012A91B0;
+T_0 ;
+    %vpi_call 2 12 "$display", "in:oe:out";
+    %vpi_call 2 13 "$monitor", v012A3290_0, v012A3340_0, v012A3980_0;
+    %set/v v012A32E8_0, 0, 32;
+T_0.0 ;
+    %load/v 8, v012A32E8_0, 32;
+   %cmpi/s 8, 4, 32;
+    %jmp/0xz T_0.1, 5;
+    %load/v 8, v012A32E8_0, 2; Only need 2 of 32 bits
+; Save base=8 wid=2 in lookaside.
+    %set/v v012A3340_0, 8, 1;
+    %ix/load 1, 1, 0;
+    %mov 4, 0, 1;
+    %jmp/1 T_0.2, 4;
+    %load/x1p 8, v012A32E8_0, 2;
+    %jmp T_0.3;
+T_0.2 ;
+    %mov 8, 2, 2;
+T_0.3 ;
+; Save base=8 wid=2 in lookaside.
+    %set/v v012A3290_0, 8, 1;
+    %delay 5, 0;
+    %ix/load 0, 1, 0;
+    %load/vp0/s 8, v012A32E8_0, 32;
+    %set/v v012A32E8_0, 8, 32;
+    %jmp T_0.0;
+T_0.1 ;
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "tristate_tb.v";
+    "tristate.v";

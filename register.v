@@ -1,4 +1,3 @@
-
 module dffe(q, d, clk, en, clr);
    
    //Inputs

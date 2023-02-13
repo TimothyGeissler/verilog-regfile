@@ -1,7 +1,8 @@
 module tristate(in, oe, out);
-input in, oe; //oe = output enable
-output out;
+input [31:0] in;
+input oe; //oe = output enable
+output [31:0] out;
 
-assign out = oe ? in : 1'bz; //subtype of 2:1 mux
+assign out = oe ? in : 32'bz; //subtype of 2:1 mux
 
 endmodule

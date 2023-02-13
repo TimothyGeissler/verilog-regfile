@@ -38,12 +38,10 @@ assign out = oe ? in : 1'bz; //subtype of 2:1 mux
 
 endmodule
 
-module register(in, wEnable, rEnable, clk, reset, out);
+module register32(in, wEnable, rEnable, clk, reset, out);
 input [31:0] in;
 input wEnable, rEnable, clk, reset; //rEnable = output enable, wEnable = input enable
 output [31:0] ff_out, out;
-
-wire clk_wEnable;
 
 //Generate 32 flipflops
 genvar i;

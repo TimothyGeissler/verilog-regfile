@@ -1,5 +1,64 @@
-`include "register.v"
-`include "decoder/decoder.v"
+module dffe(q, d, clk, en, clr);
+   
+   //Inputs
+   input d, clk, en, clr;
+   
+   //Internal wire
+   wire clr;
+
+   //Output
+   output q;
+   
+   //Register
+   reg q;
+
+   //Intialize q to 0
+   initial
+   begin
+       q = 1'b0;
+   end
+
+   //Set value of q on positive edge of the clock or clear
+   always @(posedge clk or posedge clr) begin
+       //If clear is high, set q to 0
+       if (clr) begin
+           q <= 1'b0;
+       //If enable is high, set q to the value of d
+       end else if (en) begin
+           q <= d;
+       end
+   end
+endmodule
+
+module tristate(in, oe, out);
+input in, oe; //oe = output enable
+output out;
+
+assign out = oe ? in : 1'bz; //subtype of 2:1 mux
+endmodule
+
+module register32(in, wEnable, rEnable, clk, reset, out);
+input [31:0] in;
+input wEnable, rEnable, clk, reset; //rEnable = output enable, wEnable = input enable
+output [31:0] ff_out, out;
+
+//Generate 32 flipflops
+genvar i;
+generate
+    for (i=0; i<32; i=i+1) begin: loop1
+        dffe a_dff(.d(in[i]), .q(out[i]), .clr(reset), .en(wEnable), .clk(clk)); //not sure about .clrn param
+        //tristate t(ff_out[i], rEnable, out[i]);
+    end
+endgenerate
+endmodule
+
+module decoder32(out, select, enable);
+    input [4:0] select;
+    input enable;
+    output [31:0] out;
+
+    assign out = enable << select;
+endmodule
 
 module tristate32(in, oe, out);
 input [31:0] in;
@@ -27,18 +86,18 @@ module regfile (
 	wire [1023:0] sharedOut;
 
 	//WriteEnable Decoder
-	decoder32 d32(destRegWire, ctrl_writeReg, 1'b1); //(out, select, enable);
+	decoder32 d32(destRegWire, ctrl_writeReg, ctrl_writeEnable); //(out, select, enable);
 
 	genvar i;
 	generate
 		for (i = 0; i < 32; i = i + 1) begin
-			or(orWire[i], ctrl_writeEnable, destRegWire[i]);
+			and(orWire[i], ctrl_writeEnable, destRegWire[i]);
 			//register32 reg(data_writeReg, orWire[i], 1'b1, clock, ctrl_reset, sharedOut[((i * 32) + 31):(i * 32)]) //(in, wEnable, rEnable, clk, reset, out);
 		end
 	endgenerate
 	
 	//32x32-bit registers
-	register32 reg0(data_writeReg, orWire[0], 1'b1, clock, ctrl_reset, sharedOut[31:0]);
+	register32 reg0(data_writeReg, 1'b0, 1'b1, clock, ctrl_reset, sharedOut[31:0]);
 	register32 reg1(data_writeReg, orWire[1], 1'b1, clock, ctrl_reset, sharedOut[63:32]);
 	register32 reg2(data_writeReg, orWire[2], 1'b1, clock, ctrl_reset, sharedOut[95:64]);
 	register32 reg3(data_writeReg, orWire[3], 1'b1, clock, ctrl_reset, sharedOut[127:96]);

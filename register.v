@@ -47,8 +47,8 @@ output [31:0] ff_out, out;
 genvar i;
 generate
     for (i=0; i<32; i=i+1) begin: loop1
-        dffe a_dff(.d(in[i]), .q(ff_out[i]), .clr(reset), .en(wEnable), .clk(clk)); //not sure about .clrn param
-        tristate t(ff_out[i], rEnable, out[i]);
+        dffe a_dff(.d(in[i]), .q(out[i]), .clr(reset), .en(wEnable), .clk(clk)); //not sure about .clrn param
+        //tristate t(ff_out[i], rEnable, out[i]);
     end
 endgenerate
 
